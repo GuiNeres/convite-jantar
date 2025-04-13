@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convite de Formatura</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="icone.png" type="image/png"> <!-- Ícone do site -->
+  <style>
+    body {
+      background-image: url('fundo.jpg'); /* Imagem de fundo opcional */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 bg-opacity-90 min-h-screen flex flex-col items-center justify-center p-4 text-white">
+
+  <div class="max-w-2xl w-full bg-gray-800 bg-opacity-90 rounded-2xl shadow-xl p-6 text-center relative">
+    <!-- Espaço para brasão ou logo -->
+    <img src="brasao.png" alt="Brasão PM" class="w-20 mx-auto mb-4" />
+
+    <h1 class="text-3xl font-bold text-purple-400 mb-2">Convite Especial</h1>
+    <h2 class="text-xl font-semibold mb-4">Bárbara Neres Moreira Castro & Camila Neres Moreira Castro</h2>
+
+    <!-- Espaço para foto futura -->
+    <img src="foto-formandas.jpg" alt="Foto das Formandas" class="w-full h-64 object-cover rounded-xl mb-4" />
+
+    <p class="mb-4">
+      Junte-se a nós para celebrar um momento inesquecível na vida da Bárbara e da Camila. <br/>
+      Sua presença tornará essa conquista ainda mais especial!
+    </p>
+
+    <p class="font-medium mb-2">
+      <strong>Data:</strong> Sábado, 27 de abril de 2025 <br/>
+      <strong>Hora:</strong> 19h <br/>
+      <strong>Local:</strong> Espaço Celebrações - Brasília/DF
+    </p>
+
+    <!-- Contagem regressiva -->
+    <div id="contador" class="text-lg font-semibold text-purple-300 my-4"></div>
+
+    <form action="https://formsubmit.co/guineres2011@gmail.com" method="POST" class="mt-6 space-y-4">
+      <!-- Substitua SEU-EMAIL pelo email que vai receber os dados -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="nome" placeholder="Seu nome completo" required class="w-full px-4 py-2 border rounded-xl text-black" />
+      <input type="number" name="acompanhantes" placeholder="Número de acompanhantes" min="0" required class="w-full px-4 py-2 border rounded-xl text-black" />
+      <textarea name="nomes_acompanhantes" placeholder="Nome dos acompanhantes" class="w-full px-4 py-2 border rounded-xl text-black"></textarea>
+
+      <button type="submit" class="bg-purple-600 text-white px-6 py-2 rounded-xl hover:bg-purple-700 transition">
+        Confirmar Presença
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // Data do evento (ajustável)
+    const dataEvento = new Date("2025-04-27T19:00:00").getTime();
+
+    const contador = document.getElementById("contador");
+    const intervalo = setInterval(() => {
+      const agora = new Date().getTime();
+      const diferenca = dataEvento - agora;
+
+      if (diferenca < 0) {
+        contador.innerHTML = "O grande dia chegou! 🎉";
+        clearInterval(intervalo);
+        return;
+      }
+
+      const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+      contador.innerHTML = `Faltam <span class='text-purple-400'>${dias}</span> dias, <span class='text-purple-400'>${horas}</span> horas, <span class='text-purple-400'>${minutos}</span> minutos e <span class='text-purple-400'>${segundos}</span> segundos ✨`;
+    }, 1000);
+  </script>
+
+</body>
+</html>
+
