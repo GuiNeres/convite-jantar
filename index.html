@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convite de Formatura</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" href="icone.png" type="image/png"> <!-- Ícone do site -->
+  <link rel="icon" href="icone.png" type="image/png" />
   <style>
     body {
-      background-image: url('fundo.jpg'); /* Imagem de fundo opcional */
+      background-image: url('fundo.jpg'); /* Opcional: imagem de fundo */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -18,47 +18,74 @@
 <body class="bg-gray-900 bg-opacity-90 min-h-screen flex flex-col items-center justify-center p-4 text-white">
 
   <div class="max-w-2xl w-full bg-gray-800 bg-opacity-90 rounded-2xl shadow-xl p-6 text-center relative">
-    <!-- Espaço para brasão ou logo -->
-    <img src="brasao.png" alt="Brasão PM" class="w-20 mx-auto mb-4" />
 
-    <h1 class="text-3xl font-bold text-purple-400 mb-2">Convite Especial</h1>
-    <h2 class="text-xl font-semibold mb-4">Bárbara Neres Moreira Castro & Camila Neres Moreira Castro</h2>
+    <!-- Brasão -->
+    <img src="BrasãoPMDF2.jpg" alt="Brasão PM" class="w-20 mx-auto mb-4" />
 
-    <!-- Espaço para foto futura -->
-    <img src="foto-formandas.jpg" alt="Foto das Formandas" class="w-full h-64 object-cover rounded-xl mb-4" />
+    <!-- Título -->
+    <h1 class="text-3xl font-bold text-green-400 mb-2">Convite Especial</h1>
+    <h2 class="text-xl font-semibold mb-4 text-white">
+      Bárbara Neres Moreira Castro & Camila Neres Moreira Castro
+    </h2>
 
+    <!-- Fotos lado a lado -->
+    <div class="flex gap-2 justify-center mb-4">
+      <img src="Foto Barbara.jpg" alt="Bárbara" class="w-60 h-50 object-cover rounded-xl" />
+      <img src="Foto Camila.jpg" alt="Camila" class="w-60 h-50 object-cover rounded-xl" />
+    </div>
+
+    <!-- Texto de convite -->
     <p class="mb-4">
-      Junte-se a nós para celebrar um momento inesquecível na vida da Bárbara e da Camila. <br/>
+      Junte-se a nós para celebrar um momento inesquecível na vida da Bárbara e da Camila. <br />
       Sua presença tornará essa conquista ainda mais especial!
     </p>
 
-    <p class="font-medium mb-2">
-      <strong>Data:</strong> Sábado, 27 de abril de 2025 <br/>
-      <strong>Hora:</strong> 19h <br/>
-      <strong>Local:</strong> Espaço Celebrações - Brasília/DF
+    <!-- Informações do evento -->
+    <p class="font-medium mb-2 text-white-300">
+      <strong>Data:</strong> Sábado, <span class="text-yellow-400"> 24 de Maio de 2025 </span> <br />
+      <strong>Hora:</strong> <span class="text-yellow-400"> 19:30h </span> <br />
+      <strong>Local:</strong> SHA Conj. 05, Chácara 01, Casa 10 - Brasília/DF
     </p>
 
-    <!-- Contagem regressiva -->
-    <div id="contador" class="text-lg font-semibold text-purple-300 my-4"></div>
+    <!-- Contador regressivo -->
+    <div id="contador" class="text-lg font-semibold text-green-400 my-4"></div>
 
-    <form action="https://formsubmit.co/guineres2011@gmail.com" method="POST" class="mt-6 space-y-4">
-      <!-- Substitua SEU-EMAIL pelo email que vai receber os dados -->
-      <input type="hidden" name="_captcha" value="false">
+    <!-- Formulário -->
+    <form id="formulario" action="https://formsubmit.co/guineres2011@gmail.com" method="POST" class="mt-6 space-y-4">
+
+      <!-- FormSubmit opções ocultas -->
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_subject" value="Confirmação de Presença - Formatura" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" id="horario_confirmacao" name="Data e Hora do Envio" />
+
+      <!-- Campos do formulário -->
       <input type="text" name="nome" placeholder="Seu nome completo" required class="w-full px-4 py-2 border rounded-xl text-black" />
       <input type="number" name="acompanhantes" placeholder="Número de acompanhantes" min="0" required class="w-full px-4 py-2 border rounded-xl text-black" />
       <textarea name="nomes_acompanhantes" placeholder="Nome dos acompanhantes" class="w-full px-4 py-2 border rounded-xl text-black"></textarea>
 
-      <button type="submit" class="bg-purple-600 text-white px-6 py-2 rounded-xl hover:bg-purple-700 transition">
+      <!-- Mensagens -->
+      <div id="mensagemErro" class="text-red-400 font-semibold hidden"></div>
+      <div id="mensagemSucesso" class="text-green-400 font-semibold hidden">Confirmação enviada com sucesso!</div>
+
+      <!-- Botão -->
+      <button id="botao" type="submit" class="bg-purple-600 text-white px-6 py-2 rounded-xl hover:bg-purple-700 transition">
         Confirmar Presença
       </button>
     </form>
   </div>
 
+  <!-- Script: contador e bloqueio -->
   <script>
-    // Data do evento (ajustável)
-    const dataEvento = new Date("2025-04-27T19:00:00").getTime();
-
+    const dataEvento = new Date("2025-05-10T23:59:59").getTime(); // Data limite para confirmação
     const contador = document.getElementById("contador");
+    const formulario = document.getElementById("formulario");
+    const botao = document.getElementById("botao");
+    const msgErro = document.getElementById("mensagemErro");
+    const msgSucesso = document.getElementById("mensagemSucesso");
+    const campoHora = document.getElementById("horario_confirmacao");
+
+    // Atualiza contagem regressiva
     const intervalo = setInterval(() => {
       const agora = new Date().getTime();
       const diferenca = dataEvento - agora;
@@ -74,10 +101,28 @@
       const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
       const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
 
-      contador.innerHTML = `Faltam <span class='text-purple-400'>${dias}</span> dias, <span class='text-purple-400'>${horas}</span> horas, <span class='text-purple-400'>${minutos}</span> minutos e <span class='text-purple-400'>${segundos}</span> segundos ✨`;
+      contador.innerHTML = `Faltam <span class='text-yellow-400'>${dias}</span> dias, <span class='text-yellow-400'>${horas}</span> horas, <span class='text-yellow-400'>${minutos}</span> minutos e <span class='text-yellow-400'>${segundos}</span> segundos ✨`;
     }, 1000);
+
+    // Bloqueia envio após data limite
+    formulario.addEventListener("submit", (e) => {
+      const agora = new Date();
+      if (agora.getTime() > dataEvento) {
+        e.preventDefault();
+        msgErro.classList.remove("hidden");
+        msgErro.innerHTML = "O prazo para confirmação foi encerrado. Em caso de dúvida, entre em contato pelo número (61) 99655-3297.";
+        return;
+      }
+
+      // Adiciona data/hora atual no envio
+      const agoraFormatado = agora.toLocaleString("pt-BR", {
+        timeZone: "America/Sao_Paulo"
+      });
+      campoHora.value = agoraFormatado;
+
+      msgSucesso.classList.remove("hidden");
+    });
   </script>
 
 </body>
 </html>
-
