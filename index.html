@@ -77,7 +77,8 @@
 
   <!-- Script: contador e bloqueio -->
   <script>
-    const dataEvento = new Date("2025-05-10T23:59:59").getTime(); // Data limite para confirmação
+    const dataFormatura = new Date("2025-05-24T19:30:00").getTime(); // Data real da formatura
+    const dataLimiteConfirmacao = new Date("2025-05-10T23:59:59").getTime(); // Data limite para confirmação
     const contador = document.getElementById("contador");
     const formulario = document.getElementById("formulario");
     const botao = document.getElementById("botao");
@@ -88,7 +89,7 @@
     // Atualiza contagem regressiva
     const intervalo = setInterval(() => {
       const agora = new Date().getTime();
-      const diferenca = dataEvento - agora;
+      const diferenca = dataFormatura - agora;
 
       if (diferenca < 0) {
         contador.innerHTML = "O grande dia chegou! 🎉";
@@ -107,7 +108,7 @@
     // Bloqueia envio após data limite
     formulario.addEventListener("submit", (e) => {
       const agora = new Date();
-      if (agora.getTime() > dataEvento) {
+      if (agora.getTime() > dataLimiteConfirmacao) {
         e.preventDefault();
         msgErro.classList.remove("hidden");
         msgErro.innerHTML = "O prazo para confirmação foi encerrado. Em caso de dúvida, entre em contato pelo número (61) 99655-3297.";
